@@ -14,6 +14,8 @@ public class Blackjack extends Frame implements ActionListener, ItemListener
 	private Checkbox			choix3;
 	private Checkbox			choix4;
 	
+	private static boolean use = false;
+	
 	public Blackjack()
 	{
 		alJ = new ArrayList<Joueur>();
@@ -88,14 +90,18 @@ public class Blackjack extends Frame implements ActionListener, ItemListener
 	public void itemStateChanged(ItemEvent e)
 	{
 		Checkbox cb = (Checkbox) e.getSource();
-		if (cb.equals(choix1))
-			ajouterSaisie(1);
-		else if (cb.equals(choix2))
-			ajouterSaisie(2);
-		else if (cb.equals(choix3))
-			ajouterSaisie(3);
-		else if (cb.equals(choix4))
-			ajouterSaisie(4);
+		if (!use)
+		{
+			if (cb.equals(choix1))
+				ajouterSaisie(1);
+			else if (cb.equals(choix2))
+				ajouterSaisie(2);
+			else if (cb.equals(choix3))
+				ajouterSaisie(3);
+			else if (cb.equals(choix4))
+				ajouterSaisie(4);
+			use = true;
+		}
 	}
 	
 	public void actionPerformed(ActionEvent e)
@@ -120,5 +126,12 @@ public class Blackjack extends Frame implements ActionListener, ItemListener
 	{
 		Blackjack b = new Blackjack();
 		
+		try
+		{
+			Thread.sleep(3000);
+		}
+		catch (Exception e){}
+		
+		System.out.println("test");
 	}
 }
