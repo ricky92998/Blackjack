@@ -4,11 +4,11 @@ import java.awt.event.*;
 
 public class Blackjack extends Frame implements ActionListener, ItemListener
 {
-	private ArrayList<Joueur> 	alJ;
+	private ArrayList<Joueur> 		alJ;
 	private Pioche 				pioche;
 	private TextField 			saisie;
 
-	private CheckboxGroup 		cbg;
+	private CheckboxGroup 			cbg;
 	private Checkbox			choix1;
 	private Checkbox			choix2;
 	private Checkbox			choix3;
@@ -94,8 +94,6 @@ public class Blackjack extends Frame implements ActionListener, ItemListener
 		TextField tf = (TextField) e.getSource();
 		String nom = tf.getText();
 		alJ.add(new Joueur(nom));
-		
-		dispose();
 	}
 	
 	public String toString()
