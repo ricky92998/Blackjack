@@ -57,21 +57,6 @@ public class Blackjack extends Frame implements ActionListener, ItemListener
 		setVisible(true);
 	}
 	
-	public void initialiserJoueur()
-	{
-		setTitle("InitialiserNomJoueur");
-		setLocation(100, 100);
-		
-		add(new Label("Choisissez le nom du joueur : "));
-		saisie = new TextField();
-		saisie.addActionListener(this);
-		
-		add(saisie);
-		
-		pack();
-		setVisible(true);
-	}
-	
 	public void ajouterSaisie(int i)
 	{
 		setTitle("Initialisation Blackjack");
