@@ -18,4 +18,9 @@ public class Pioche
 	{
 		return alC.remove(carte);
 	}
+	
+	public void melangerCarte()
+	{
+		Collections.shuffle(alC);
+	}
 }
