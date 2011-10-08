@@ -15,7 +15,6 @@ public class Fenetre extends Frame implements ActionListener, ItemListener
 	private TextField 			saisie4;
 	
 	private int 				nbJoueur;
-	private static int 			joueurInscrit;
 	private boolean				use;
 	private	ArrayList<String> 	alS;
 	
@@ -23,7 +22,6 @@ public class Fenetre extends Frame implements ActionListener, ItemListener
 	{
 		// pour pas avoir la meme taille que la liste
 		nbJoueur = -1;
-		joueurInscrit = 0;
 		use = false;
 		alS = new ArrayList<String>();
 		
@@ -51,7 +49,7 @@ public class Fenetre extends Frame implements ActionListener, ItemListener
 			add(choix);
 		}
 
-		/** initialisation des zones de textes **/
+		// initialisation des zones de textes
 		saisie1 = new TextField();
 		saisie1.addActionListener(this);
 		saisie1.setEnabled(false); // permet a la zone de ne pas etre editable
@@ -76,8 +74,9 @@ public class Fenetre extends Frame implements ActionListener, ItemListener
 		setVisible(true);		
 	}
 	
-	public int getNbJoueur() {		return nbJoueur;	}
-	public ArrayList<String> getAlS() {		return alS;	}
+	public int getNbJoueur() 			{	return nbJoueur;	}
+	public ArrayList<String> getAlS() 	{	return alS;			}
+	public String getStringAl(int i)	{	return alS.get(i);	}
 
 	/* (non-Javadoc)
 	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
@@ -88,15 +87,19 @@ public class Fenetre extends Frame implements ActionListener, ItemListener
 		// TODO Auto-generated method stub
 		Checkbox cb = (Checkbox) e.getSource();
 		nbJoueur = Integer.parseInt(cb.getLabel());
+		// si le nombre de joueurs est superieur ou egale a 1 on active saisie1
 		if (nbJoueur >= 1 && !use)
 		{
 			saisie1.setEnabled(true);
+			// si le nombre de joueurs est superieur ou egale a 2 on active saisie1
 			if (nbJoueur >= 2)
 			{
 				saisie2.setEnabled(true);
+				// si le nombre de joueurs est superieur ou egale a 3 on active saisie1
 				if (nbJoueur >= 3)
 				{
 					saisie3.setEnabled(true);
+					// si le nombre de joueurs est egale a 4 on active saisie1
 					if (nbJoueur == 4)
 						saisie4.setEnabled(true);
 				}
@@ -117,6 +120,7 @@ public class Fenetre extends Frame implements ActionListener, ItemListener
 		alS.add(text);
 		
 		String name = tf.getName();
+		// si le nom est egale a "..." alors on desactive la zone de texte
 		if (name.equals("textfield0"))
 			saisie1.setEnabled(false);
 		else if (name.equals("textfield1"))
@@ -125,8 +129,6 @@ public class Fenetre extends Frame implements ActionListener, ItemListener
 			saisie3.setEnabled(false);
 		else if (name.equals("textfield3"))
 			saisie4.setEnabled(false);
-		
-		joueurInscrit++;
 	}
 
 	/**

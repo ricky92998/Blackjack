@@ -6,7 +6,8 @@ public class Blackjack
 	private Pioche 				pioche;
 	
 	private Fenetre				fenetre;
-	
+	private int 				nbJoueur;
+
 	public Blackjack()
 	{
 		alJ = new ArrayList<Joueur>();
@@ -25,9 +26,19 @@ public class Blackjack
 		pioche.melangerCarte();
 	}
 	
-	// accesseur de Pioche et Fenetre
-	public Pioche getPioche() {		return pioche;	}
-	public Fenetre getFenetre() {		return fenetre;	}
+	public void initialiserJoueur() 
+	{
+		// TODO Auto-generated method stub
+		for (int i = 0; i < nbJoueur; i++)
+			alJ.add(new Joueur(fenetre.getStringAl(i)));
+	}
+	
+	// accesseur de Pioche et Fenetre et nbJoueur
+	public Pioche getPioche() 	{	return pioche;	}
+	public Fenetre getFenetre() {	return fenetre;	}
+	public int getNbJoueur() 	{	return nbJoueur;	}
+	
+	public void setNbJoueur(int nbJoueur) {		this.nbJoueur = nbJoueur;	}
 	
 	public String toString()
 	{
@@ -42,17 +53,18 @@ public class Blackjack
 	{
 		Blackjack b = new Blackjack();
 		
-		/*try
-		{
-			Thread.sleep(3000);
-		}
-		catch (Exception e){}*/
-		while (b.getFenetre().getNbJoueur() != b.getFenetre().getAlS().size())
-		{
-			System.out.println(b.getFenetre().getNbJoueur() + "\t" +  b.getFenetre().getAlS().size());
-		}
+		//permet d'attendre qu'on entre les informations
+		while (b.getFenetre().getNbJoueur() != b.getFenetre().getAlS().size());
 		
+		b.setNbJoueur(b.getFenetre().getNbJoueur());
+		// on ferme la fenetre sans arreter le programmme
 		b.getFenetre().dispose();
-		System.out.println("test");
+		
+		b.initialiserJoueur();
+		
+		
+		System.out.println(b.alJ);
 	}
+
+	
 }

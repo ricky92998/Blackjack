@@ -24,6 +24,21 @@ public class Joueur
 		alC.add(carte);
 	}
 	
+	@Override
+	public String toString() 
+	{
+		return "Joueur [numJoueur=" + numJoueur + ", nom=" + nom + "]";
+	}
+	
+	public String afficherCarte()
+	{
+		String s ="";
+		for (Carte carte : alC)
+			s += carte.toString() + "\n";
+		
+		return s;
+	}
+
 	public boolean enleverCarte(Carte carte)
 	{
 		return alC.remove(carte);
