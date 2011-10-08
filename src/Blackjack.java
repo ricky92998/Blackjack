@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Blackjack
 {
-	private ArrayList<Joueur> 	alJ;
+	private ArrayList<Joueur> 		alJ;
 	private Pioche 				pioche;
 	
 	private Fenetre				fenetre;
