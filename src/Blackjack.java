@@ -1,18 +1,20 @@
 import java.util.*;
+import Fenetre.*;
 
 public class Blackjack
 {
 	private ArrayList<Joueur> 		alJ;
-	private Pioche 				pioche;
+	private Pioche 					pioche;
 	
-	private Fenetre				fenetre;
-	private int 				nbJoueur;
+	private FenetreChoixJoueurs		fenetreJoueurs;
+	private FenetreChoixPognon		fenetrePognon;
+	private int 					nbJoueur;
 
 	public Blackjack()
 	{
 		alJ = new ArrayList<Joueur>();
 		pioche = new Pioche();
-		fenetre = new Fenetre();
+		fenetreJoueurs = new FenetreChoixJoueurs();
 		
 		initialiser();
 	}
@@ -30,13 +32,24 @@ public class Blackjack
 	{
 		// TODO Auto-generated method stub
 		for (int i = 0; i < nbJoueur; i++)
-			alJ.add(new Joueur(fenetre.getStringAl(i)));
+			alJ.add(new Joueur(fenetreJoueurs.getStringAl(i)));
+	}
+	
+	public void choixPognon()
+	{
+		fenetrePognon = new FenetreChoixPognon(nbJoueur);
+		while (nbJoueur != fenetrePognon.getAlI().size());
+		for (int i = 0; i < nbJoueur; i++)
+			alJ.get(i).setPognon(fenetrePognon.getIntAl(i));
 	}
 	
 	// accesseur de Pioche et Fenetre et nbJoueur
-	public Pioche getPioche() 	{	return pioche;	}
-	public Fenetre getFenetre() {	return fenetre;	}
-	public int getNbJoueur() 	{	return nbJoueur;	}
+	public Pioche getPioche() 						{	return pioche;	}
+	public int getNbJoueur() 						{	return nbJoueur;	}
+	
+	public FenetreChoixJoueurs getJoueurFenetre() 	{	return fenetreJoueurs;	}
+	public FenetreChoixPognon getPognonFenetre()	{	return fenetrePognon;	}
+	
 	
 	public void setNbJoueur(int nbJoueur) {		this.nbJoueur = nbJoueur;	}
 	
@@ -54,16 +67,15 @@ public class Blackjack
 		Blackjack b = new Blackjack();
 		
 		//permet d'attendre qu'on entre les informations
-		while (b.getFenetre().getNbJoueur() != b.getFenetre().getAlS().size());
+		while (b.getJoueurFenetre().getNbJoueur() != b.getJoueurFenetre().getAlS().size());
 		
-		b.setNbJoueur(b.getFenetre().getNbJoueur());
+		b.setNbJoueur(b.getJoueurFenetre().getNbJoueur());
 		// on ferme la fenetre sans arreter le programmme
-		b.getFenetre().dispose();
+		b.getJoueurFenetre().dispose();
 		
 		b.initialiserJoueur();
 		
-		
-		System.out.println(b.alJ);
+		b.choixPognon();
 	}
 
 	
