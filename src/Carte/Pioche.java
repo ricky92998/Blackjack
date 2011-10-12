@@ -1,3 +1,5 @@
+package Carte;
+
 import java.util.*;
 
 public class Pioche 
@@ -12,6 +14,13 @@ public class Pioche
 	public void ajouterCarte(Carte carte)
 	{
 		alC.add(carte);
+	}
+	
+	public Carte getPremiereCarte()
+	{
+		Carte c =  alC.get(0);
+		enleverCarte(c);
+		return c;
 	}
 	
 	public boolean enleverCarte(Carte carte)

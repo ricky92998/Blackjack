@@ -5,6 +5,8 @@ import java.awt.event.*;
 
 public abstract class Fenetre extends Frame implements ActionListener, ItemListener
 {
+	private int 				nbJoueur;
+	
 	private CheckboxGroup 		cbg;
 	private Checkbox			choixNbJoueur;
 	
@@ -16,20 +18,24 @@ public abstract class Fenetre extends Frame implements ActionListener, ItemListe
 	// titre pour les différentes fenetres
 	// ligne pour le nombre de ligne a notre fenetre
 	// choix pour savoir s'il y a un choix a faire
-	public Fenetre(String titre, int ligne, boolean choix)
+	public Fenetre(String titre, int ligne, boolean choix, int nbJoueur)
 	{
+		this.nbJoueur = nbJoueur;
+		
 		String title = "";
 		if (titre.equals("pognon"))
 			title = "Combien avez vous d'argent";
 		else if (titre.equals("joueur"))
 			title = "Initialisation Joueur";
+		else if (titre.equals("pari"))
+			title = "Choix des paris";
 		
 		setTitle(title);
 		setLocation(100, 100);
 		
 		// permet a la croix d'arreter le programme
-		addWindowListener (new WindowAdapter(){
-			public void windowClosing (WindowEvent e){
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
 				System.exit(0);
 			}
 		});
@@ -57,16 +63,19 @@ public abstract class Fenetre extends Frame implements ActionListener, ItemListe
 			}
 		}
 		
-		if (titre.equals("pognon"))
-			label = "Combien d'argent ont chaques joueurs ?";
-		else if (titre.equals("joueur"))
+		if (titre.equals("joueur"))
 			label = "Quels sont vos noms ?";
+		else if (titre.equals("pognon"))
+			label = "Combien d'argent ont chaques joueurs ?";
+		else if (titre.equals("pari"))
+			label = "Quels sont vos paris ?";
 		else
 			label = null;
 		
 		if (label != null)
 			add(new Label(label));
 		
+		// initialisation des TextFields
 		saisie1 = new TextField();
 		saisie1.addActionListener(this);
 		saisie1.setEnabled(false); // permet a la zone de ne pas etre editable
@@ -91,38 +100,34 @@ public abstract class Fenetre extends Frame implements ActionListener, ItemListe
 		setVisible(true);	
 	}
 	
-	public void activerSaisie(int nbJoueur)
+	// accesseur de nbJoueur
+	public int getNbJoueur()		{	return nbJoueur;	}
+	
+	// modificateur de nbJoueur
+	public void setNbJoueur(int nbJoueur)	{	this.nbJoueur = nbJoueur;	}
+	
+	public void activerSaisie(int textfield)
 	{
-		if (nbJoueur >= 1)
-		{
+		if (textfield == 0)
 			saisie1.setEnabled(true);
-			// si le nombre de joueurs est superieur ou egale a 2 on active saisie1
-			if (nbJoueur >= 2)
-			{
-				saisie2.setEnabled(true);
-				// si le nombre de joueurs est superieur ou egale a 3 on active saisie1
-				if (nbJoueur >= 3)
-				{
-					saisie3.setEnabled(true);
-					// si le nombre de joueurs est egale a 4 on active saisie1
-					if (nbJoueur == 4)
-						saisie4.setEnabled(true);
-				}
-			}
-		}
+		else if (textfield == 1)
+			saisie2.setEnabled(true);
+		else if (textfield == 2)
+			saisie3.setEnabled(true);
+		else if (textfield == 3)
+			saisie4.setEnabled(true);
 	}
 	
-	public void setTextField(String name)
+	public void desactiverSaisie(int numTextField)
 	{
-		// si le nom est egale a "..." alors on desactive la zone de texte
-				if (name.equals("textfield0"))
-					saisie1.setEnabled(false);
-				else if (name.equals("textfield1"))
-					saisie2.setEnabled(false);
-				else if (name.equals("textfield2"))
-					saisie3.setEnabled(false);
-				else if (name.equals("textfield3"))
-					saisie4.setEnabled(false);
-				
-	}
+		// si le num est egale a 0, 1, 2 ou 3 alors on desactive la zone de texte
+		if (numTextField == 0)
+			saisie1.setEnabled(false);
+		else if (numTextField == 1)
+			saisie2.setEnabled(false);
+		else if (numTextField == 2)
+			saisie3.setEnabled(false);
+		else if (numTextField == 3)
+			saisie4.setEnabled(false);
+	}	
 }

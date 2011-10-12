@@ -1,10 +1,14 @@
+package Personne;
+
 import java.util.*;
 
-public class Banquier
+import Carte.*;
+
+public class Croupier
 {
-	ArrayList<Carte> alC;
+	private ArrayList<Carte> alC;
 	
-	public Banquier(String nom)
+	public Croupier()
 	{
 		alC = new ArrayList<Carte>();
 	}
@@ -17,5 +21,10 @@ public class Banquier
 	public boolean enleverCarte(Carte carte)
 	{
 		return alC.remove(carte);
+	}
+	
+	public String afficherCarte()
+	{
+		return "Croupier" + alC.get(0).toString();
 	}
 }

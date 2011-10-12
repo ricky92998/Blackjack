@@ -1,12 +1,16 @@
+package Carte;
+
+import Enum.*;
 
 public class Carte
 {
-	int num;
-	Categorie cat;
+	private int 		num;
+	private Face 		face;
+	private Categorie 	cat;
 	
-	public Carte(int num, Categorie cat)
+	public Carte(Face face, Categorie cat)
 	{
-		this.num = num;
+		this.face = face;
 		this.cat = cat;
 	}
 
@@ -21,6 +25,6 @@ public class Carte
 	@Override
 	public String toString() 
 	{
-		return "Carte [num=" + num + ", cat=" + cat + "]";
+		return "Carte [face=" + face + ", cat=" + cat + "]";
 	}
 }
