@@ -1,4 +1,4 @@
-package Fenetre;
+package Fenetre.FenetreSaisie;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -9,8 +9,12 @@ import Blackjack.*;
 
 public abstract class FenetreSaisie extends Frame implements ActionListener
 {
+	private String				nomFenetre;
 	private int 				nbJoueur;
-	
+	private int 				nbTextFieldUsed = 0;
+	// Ceci permet de stocker les infos que les joueurs entrent
+	private ArrayList<String> 	alS;
+
 	private TextField 			saisie1;
 	private TextField 			saisie2;
 	private TextField 			saisie3;
@@ -18,10 +22,14 @@ public abstract class FenetreSaisie extends Frame implements ActionListener
 	
 	public FenetreSaisie(String titre, int ligne, int nbJoueur)
 	{
+		nomFenetre = titre;
 		this.nbJoueur = nbJoueur;
+		alS = new ArrayList<String>();
 		
 		String title = "";
-		if (titre.equals("pognon"))
+		if (titre.equals("nomJoueur"))
+			title = "Choisissez le nom des joueurs";
+		else if (titre.equals("pognon"))
 			title = "Combien avez vous d'argent";
 		else if (titre.equals("pari"))
 			title = "Choix des paris";
@@ -39,7 +47,9 @@ public abstract class FenetreSaisie extends Frame implements ActionListener
 		setLayout(new GridLayout(ligne, 1));
 		
 		String label = "";
-		if (titre.equals("pognon"))
+		if (titre.equals("nomJoueur"))
+			label = "Quels sont les noms des joueurs ?";
+		else if (titre.equals("pognon"))
 			label = "Combien d'argent ont chaques joueurs ?";
 		else if (titre.equals("pari"))
 			label = "Quels sont vos paris ?";
@@ -72,11 +82,23 @@ public abstract class FenetreSaisie extends Frame implements ActionListener
 		
 	}
 	
-	// accesseur de nbJoueur
-	public int getNbJoueur()		{	return nbJoueur;	}
+	// accesseur
+	public String 				getNomFenetre()			{		return nomFenetre;	}
+	public int 					getNbJoueur()			{	return nbJoueur;		}
+	public ArrayList<String> 	getAlS() 				{	return alS;				}
+	public int 					getNbTextFieldUsed()	{	return nbTextFieldUsed;	}
+	// retourne un entier ou un String selon le besoin
+	public int 					getIntAlS(int i)		{	return Integer.parseInt(alS.get(i));		}
+	public String 				getStringAlS(int i)		{	return alS.get(i);		}
 	
 	// modificateur de nbJoueur
-	public void setNbJoueur(int nbJoueur)	{	this.nbJoueur = nbJoueur;	}
+	public void setNbJoueur(int nbJoueur)				{	this.nbJoueur = nbJoueur;				}
+	public void setNbTextFieldUsed(int nbTextFieldUsed)	{	this.nbTextFieldUsed = nbTextFieldUsed;	}
+	
+	public void ajouterAlS(String info)
+	{
+		alS.add(info);
+	}
 	
 	public void activerSaisie(int textfield)
 	{
@@ -103,68 +125,9 @@ public abstract class FenetreSaisie extends Frame implements ActionListener
 			saisie4.setEnabled(false);
 	}
 	
-	
-	/*private String 				nomFenetre;
-	private int 				nbTextFieldUsed = 0;
-	// Ceci permet de stocker l'argent que les joueurs entrent
-	private ArrayList<Integer> 	alI;
-	
-	public FenetreSaisie(String nomFenetre, int nbJoueur)
-	{
-		// On cr�� la fenetre
-		super(nomFenetre , 5, false, nbJoueur);
-		// on active autant de saisie que le nombre de joueur
-		super.activerSaisie(0);
-		
-		alI = new ArrayList<Integer>();
-		this.nomFenetre = nomFenetre;
-	}
-	
-	public ArrayList<Integer> getAlI() {	return alI;		}
-	public int getIntAl(int i)	{	return alI.get(i);	}
-	
-	@Override
-	public void actionPerformed(ActionEvent e) 
-	{
-		// TODO Auto-generated method stub
-		TextField tf = (TextField) e.getSource();
-		String text = tf.getText();
-		int montant = Integer.parseInt(text);
-		boolean continu = true;
-		if (nomFenetre.equals("pari"))
-		{
-			continu = bonneValeurPari(montant, nbTextFieldUsed);
-		}
-		// si continu on passe a la valeur prochaine (pour la mise)
-		if (continu)
-		{
-			alI.add(montant);
-	
-			super.desactiverSaisie(nbTextFieldUsed);
-			if (nbTextFieldUsed+1 < super.getNbJoueur())
-				super.activerSaisie(++nbTextFieldUsed);
-		}
-	}
-	
-	@Override
-	public void itemStateChanged(ItemEvent e)
-	{
-		// TODO inutile vu qu'on a pas d'Item
-	}
-	
-	public boolean bonneValeurPari(int montant, int numJoueur)
-	{
-		if (montant < Blackjack.MISE_MINI || montant > Blackjack.MISE_MAXI)
-			return false;
-		if (montant > Blackjack.alJ.get(numJoueur).getPognon())
-			return false;
-		
-		return true;
-	}
-	
 	public void vider()
 	{
-		alI.clear();
+		alS.clear();
 		nbTextFieldUsed = 0;
-	}*/
+	}
 }

@@ -3,6 +3,8 @@ package Blackjack;
 import java.util.*;
 
 import Fenetre.*;
+import Fenetre.FenetreChoix.*;
+import Fenetre.FenetreSaisie.*;
 import Personne.*;
 import Carte.*;
 import Enum.*;
@@ -17,9 +19,6 @@ public class Blackjack
 	private Croupier				croupier;
 	private Pioche 					pioche;
 	
-	private FenetreChoixJoueurs		fenetreJoueurs;
-	private FenetreSaisie			fenetreSaisie;
-	
 	private static int 				nbJoueur;
 
 	public Blackjack()
@@ -27,9 +26,22 @@ public class Blackjack
 		alJ = new ArrayList<Joueur>();
 		croupier = new Croupier();
 		pioche = new Pioche();
+		nbJoueur = 0;
 		
+		initialiser();
 		initialiserPioche();
 		initialiserJoueur();
+	}
+	
+	public void initialiser()
+	{
+		FenetreChoixNbJoueur fj = new FenetreChoixNbJoueur("nbJoueur", nbJoueur);
+		while (fj.getNbJoueur() == nbJoueur)
+			attendre();
+		
+		// on modifie le nombre de joueur
+		nbJoueur = fj.getNbJoueur();
+		fj.dispose();
 	}
 	
 	public void initialiserPioche()
@@ -43,19 +55,18 @@ public class Blackjack
 	
 	public void initialiserJoueur() 
 	{
-		fenetreJoueurs = new FenetreChoixJoueurs();
-		while (fenetreJoueurs.getNbJoueur() != fenetreJoueurs.getAlS().size())
+		FenetreSaisieString fNomJoueur = new FenetreSaisieString("nomJoueur", nbJoueur);
+		while (nbJoueur != fNomJoueur.getAlS().size())
 			attendre();
 		
-		// on modifie le nombre de joueur
-		nbJoueur = fenetreJoueurs.getNbJoueur();
 		
 		// TODO On ajoute les joueurs
 		for (int i = 0; i < nbJoueur; i++)
-			alJ.add(new Joueur(fenetreJoueurs.getStringAl(i)));
+			alJ.add(new Joueur(fNomJoueur.getStringAlS(i)));
 		
 		// on ferme la fenetre sans arreter le programmme
-		fenetreJoueurs.dispose();
+		fNomJoueur.dispose();
+		fNomJoueur.vider();
 
 		// les joueurs ont une certaine somme
 		choixPognon();
@@ -64,31 +75,31 @@ public class Blackjack
 	public void choixPognon()
 	{
 		// TODO On donne l'argent au joueur
-		fenetreSaisie = new FenetreSaisie("pognon", nbJoueur);
-		while (nbJoueur != fenetreSaisie.getAlI().size())
+		FenetreSaisieInt fArgent= new FenetreSaisieInt("pognon", nbJoueur);
+		while (nbJoueur != fArgent.getAlS().size())
 			attendre();
 			
 		for (int i = 0; i < nbJoueur; i++)
-			alJ.get(i).setPognon(fenetreSaisie.getIntAl(i));
+			alJ.get(i).setPognon(fArgent.getIntAlS(i));
 		
-		fenetreSaisie.dispose();
-		fenetreSaisie.vider();
+		fArgent.dispose();
+		fArgent.vider();
 	}
 	
 	public void choixPari()
 	{
-		fenetreSaisie = new FenetreSaisie("pari", nbJoueur);
-		while (nbJoueur != fenetreSaisie.getAlI().size())
+		FenetreSaisieInt fMise = new FenetreSaisieInt("pari", nbJoueur);
+		while (nbJoueur != fMise.getAlS().size())
 			attendre();
 		
 		for (int i = 0; i < nbJoueur; i++)
-			alJ.get(i).setMise(fenetreSaisie.getIntAl(i));
+			alJ.get(i).setMise(fMise.getIntAlS(i));
 		
-		fenetreSaisie.dispose();
-		fenetreSaisie.vider();
+		fMise.dispose();
+		fMise.vider();
 	}
 	
-	public void choixJoueurCarte()
+	/*public void choixJoueurCarte()
 	{
 		for (Joueur j : alJ)
 		{
@@ -104,15 +115,11 @@ public class Blackjack
 			
 			
 		}
-	}
+	}*/
 	
 	// accesseur de Pioche et nbJoueur
 	public Pioche 	getPioche() 	{	return pioche;			}
 	public int 		getNbJoueur() 	{	return nbJoueur;		}
-	
-	// accesseur des fenetres
-	public FenetreChoixJoueurs 	getFenetreJoueur() 	{	return fenetreJoueurs;	}
-	public FenetreSaisie 		getFenetreSaisie()	{	return fenetreSaisie;	}
 	public ArrayList<Joueur> 	getAlJ()			{	return alJ;				}
 
 	//permet de m�langer la pioche
@@ -170,6 +177,6 @@ public class Blackjack
 		b.distribuerCarte();
 		System.out.println(b.afficherCarte());
 		
-		b.choixJoueurCarte();
+		//b.choixJoueurCarte();
 	}
 }
