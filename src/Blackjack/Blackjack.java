@@ -3,6 +3,7 @@ package Blackjack;
 import java.util.*;
 
 import Fenetre.*;
+import Fenetre.FenetreBouton.*;
 import Fenetre.FenetreChoix.*;
 import Fenetre.FenetreSaisie.*;
 import Personne.*;
@@ -18,6 +19,11 @@ public class Blackjack
 	public static ArrayList<Joueur>	alJ;
 	private Croupier				croupier;
 	private Pioche 					pioche;
+	
+	private	boolean 				peutAssure;
+	private boolean 				peutSepare;
+	
+	private	String 					action;
 	
 	private static int 				nbJoueur;
 
@@ -99,23 +105,32 @@ public class Blackjack
 		fMise.vider();
 	}
 	
-	/*public void choixJoueurCarte()
+	public void choixJoueurCarte()
 	{
 		for (Joueur j : alJ)
 		{
-			if (j.estElimine())
+			if (j.estElimine() || j.aUnBlackjack())
 				continue;
-			boolean separe = false;
+			
+			peutSepare = false;
+			peutAssure = false;
 			Carte carte1 = j.getListeCarte().get(0);
 			Carte carte2 = j.getListeCarte().get(1);
 			
 			if (carte1.equals(carte2))
-				separe = true;
+				peutSepare = true;
+			if (croupier.possedeCarte(Face.AS))
+				peutAssure = true;
 			
+			FenetreBoutonAction fAction = new FenetreBoutonAction("action", j.getNom(), peutSepare, peutAssure);
+			while (fAction.getAction() == "")
+				attendre();
 			
-			
+			action = fAction.getAction();
+			fAction.dispose();
 		}
-	}*/
+		
+	}
 	
 	// accesseur de Pioche et nbJoueur
 	public Pioche 	getPioche() 	{	return pioche;			}
@@ -128,6 +143,7 @@ public class Blackjack
 		pioche.melangerCarte();
 	}
 	
+	// on distribue les cartes aux joueurs
 	public void distribuerCarte()
 	{
 		for (int i = 0; i < NB_CARTE_DEBUT; i++)
@@ -144,7 +160,7 @@ public class Blackjack
 	{
 		try
 		{
-			Thread.sleep(5000);
+			Thread.sleep(3000);
 		} catch (Exception e){}
 	}
 	
@@ -177,6 +193,6 @@ public class Blackjack
 		b.distribuerCarte();
 		System.out.println(b.afficherCarte());
 		
-		//b.choixJoueurCarte();
+		b.choixJoueurCarte();
 	}
 }

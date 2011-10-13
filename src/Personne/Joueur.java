@@ -52,9 +52,9 @@ public class Joueur
 		return alC.remove(carte);
 	}
 	
-	public int getIndexCarte(Carte carte)
+	public boolean aUnBlackjack()
 	{
-		return Collections.binarySearch(alC, carte);
+		return false;
 	}
 	
 	public String afficherCarte()

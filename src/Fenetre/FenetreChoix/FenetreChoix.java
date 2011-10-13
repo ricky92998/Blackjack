@@ -45,7 +45,7 @@ public abstract class FenetreChoix extends Frame implements ItemListener
 		cbg 	= new CheckboxGroup();
 			
 		// initialiser de la liste des nombres de joueurs
-		for (int i = 1; i < 5; i++)
+		for (int i = 1; i < ligne; i++)
 		{
 			choixNbJoueur = new Checkbox(String.valueOf(i), cbg, false);
 			choixNbJoueur.addItemListener(this);
