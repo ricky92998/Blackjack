@@ -14,7 +14,7 @@ public abstract class FenetreBouton extends Frame implements ActionListener
 	private Panel				panel;
 	private Label				label;
 	
-	public FenetreBouton(String titre, String nomJoueur, Boolean peutSepare, Boolean peutAssure)
+	public FenetreBouton(String titre, String nomJoueur, Boolean peutDoubler,  Boolean peutSepare, Boolean peutAssure)
 	{
 		nomFenetre = titre;
 		String title = "";
@@ -22,7 +22,7 @@ public abstract class FenetreBouton extends Frame implements ActionListener
 		if (titre.equals("action"))
 		{
 			String[][] tabAction = {{"Carte", "Rester", "Double", "Partager", "Assurance", "Abandonner" },
-									{"true", "true", "true", peutSepare.toString(), peutAssure.toString(), "true"},
+									{"true", "true", peutDoubler.toString(), peutSepare.toString(), peutAssure.toString(), "true"},
 								   };
 			
 			for (int i = 0; i < 6; i++)

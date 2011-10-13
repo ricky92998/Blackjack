@@ -8,9 +8,9 @@ public class FenetreBoutonAction extends FenetreBouton
 	private String	action;
 	private boolean boutonUtilise;
 	
-	public FenetreBoutonAction(String titre, String nomJoueur, boolean peutSepare, boolean peutAssure)
+	public FenetreBoutonAction(String titre, String nomJoueur, boolean peutDoubler, boolean peutSeparer, boolean peutAssurer)
 	{
-		super(titre, nomJoueur, peutSepare, peutAssure);
+		super(titre, nomJoueur, peutDoubler, peutSeparer, peutAssurer);
 		action = "";
 		boutonUtilise = false;
 	}

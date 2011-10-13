@@ -20,9 +20,6 @@ public class Blackjack
 	private Croupier				croupier;
 	private Pioche 					pioche;
 	
-	private	boolean 				peutAssure;
-	private boolean 				peutSepare;
-	
 	private	String 					action;
 	
 	private static int 				nbJoueur;
@@ -99,43 +96,48 @@ public class Blackjack
 			attendre();
 		
 		for (int i = 0; i < nbJoueur; i++)
-			alJ.get(i).setMise(fMise.getIntAlS(i));
+			modifierMise(alJ.get(i), fMise.getIntAlS(i));
+			
 		
 		fMise.dispose();
 		fMise.vider();
 	}
 	
-	public void choixJoueurCarte()
+	
+
+	public void choixJoueurCarte(Joueur j, int nbTours)
 	{
-		for (Joueur j : alJ)
+		boolean peutDoubler = false;
+		boolean peutSeparer = false;
+		boolean peutAssurer = false;
+		
+		Carte carte1 = j.getListeCarte().get(0);
+		Carte carte2 = j.getListeCarte().get(1);
+		
+		if (nbTours == 1)
 		{
-			if (j.estElimine() || j.aUnBlackjack())
-				continue;
-			
-			peutSepare = false;
-			peutAssure = false;
-			Carte carte1 = j.getListeCarte().get(0);
-			Carte carte2 = j.getListeCarte().get(1);
-			
 			if (carte1.equals(carte2))
-				peutSepare = true;
+				peutSeparer = true;
 			if (croupier.possedeCarte(Face.AS))
-				peutAssure = true;
+				peutAssurer = true;
 			
-			FenetreBoutonAction fAction = new FenetreBoutonAction("action", j.getNom(), peutSepare, peutAssure);
-			while (fAction.getAction() == "")
-				attendre();
-			
-			action = fAction.getAction();
-			fAction.dispose();
+			peutDoubler = true;
 		}
+
+		FenetreBoutonAction fAction = new FenetreBoutonAction("action", j.getNom(), peutDoubler, peutSeparer, peutAssurer);
+		while (fAction.getAction() == "")
+			attendre();
+
+		action = fAction.getAction();
+		fAction.dispose();
 		
 	}
 	
 	// accesseur de Pioche et nbJoueur
-	public Pioche 	getPioche() 	{	return pioche;			}
-	public int 		getNbJoueur() 	{	return nbJoueur;		}
-	public ArrayList<Joueur> 	getAlJ()			{	return alJ;				}
+	public Pioche 				getPioche() 	{	return pioche;		}
+	public int 					getNbJoueur() 	{	return nbJoueur;	}
+	public String 				getAction()		{	return action;		}
+	public ArrayList<Joueur> 	getAlJ()		{	return alJ;			}
 
 	//permet de m�langer la pioche
 	public void melangerPioche()
@@ -153,6 +155,53 @@ public class Blackjack
 			
 			croupier.ajouterCarte(pioche.getPremiereCarte());
 		}
+	}
+	
+	public void faireAction(Joueur j)
+	{
+		if (action.equals("Carte"))
+			j.ajouterCarte(pioche.getPremiereCarte());
+		else if (action.equals("Rester"))
+			j.setStop(true);
+		else if (action.equals("Double"))
+		{
+			j.ajouterCarte(pioche.getPremiereCarte());
+			modifierMise(j, j.getMise());
+			j.setStop(true);
+		}
+		else if (action.equals("Partager"))
+			j.partagerCarte();
+		else if (action.equals("Assurance"))
+		{
+			ajoutAssurance(j, -j.getMise()/2);
+			j.setStop(true);
+		}
+		else if (action.equals("Abandonner"))
+			abandonner(j);
+	}
+	
+	public void modifierMise(Joueur joueur, int mise)
+	{
+		// TODO Auto-generated method stub
+		int nouvelleMise = joueur.getMise() + mise;
+		int nouveauPognon = joueur.getPognon() - mise;
+		joueur.setMise(nouvelleMise);
+		joueur.setPognon(nouveauPognon);
+	}
+	
+	public void ajoutAssurance(Joueur joueur, int miseAssurance)
+	{
+		int nouveauPognon = joueur.getPognon() - miseAssurance;
+		joueur.setMiseAssurance(miseAssurance);
+		joueur.setPognon(nouveauPognon);
+	}
+	
+	public void abandonner(Joueur joueur)
+	{
+		int nouveauPognon = joueur.getPognon() + 1/2 * joueur.getMise();
+		joueur.setPognon(nouveauPognon);
+		joueur.setMise(0);
+		joueur.setElimine(true);
 	}
 	
 	// on attend pour pas prendre trop de ressource
@@ -193,6 +242,19 @@ public class Blackjack
 		b.distribuerCarte();
 		System.out.println(b.afficherCarte());
 		
-		b.choixJoueurCarte();
+		for (Joueur j : alJ)
+		{
+			int nbTours = 1;
+			while (!j.estElimine() && !j.aUnBlackjack() && !j.aArreter())
+			{
+				b.choixJoueurCarte(j, nbTours);
+				
+				b.faireAction(j);
+				System.out.println(b.afficherCarte());
+				nbTours++;
+			}
+		}
 	}
+
+	
 }
