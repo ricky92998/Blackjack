@@ -6,17 +6,19 @@ import Carte.*;
 
 public class Joueur
 {
-	static int 			id = 0;
-	int 				numJoueur;
-	String 				nom;
+	private static int 			id = 0;
+	private	int 				numJoueur;
+	private	String 				nom;
 	// argent du joueur
-	int 				pognon;
+	private	int 				pognon;
 	// mise du joueur
-	int 				mise;
+	private	int 				mise;
+	// si le joueur est elimine il ne joue plus 
+	private boolean 	elimine;
 	// Le joueur possede une liste de Carte
-	ArrayList<Carte> 	alC;
-	// Le joueur peut avoir une deuxième liste sépare ces 2 cartes
-	ArrayList<Carte>	alCUtilitaire;
+	private ArrayList<Carte> 	alC;
+	// Le joueur peut avoir une deuxiï¿½me liste sï¿½pare ces 2 cartes
+	private	ArrayList<Carte>	alCUtilitaire;
 	
 	public Joueur(String nom)
 	{
@@ -24,13 +26,16 @@ public class Joueur
 		numJoueur = ++id;
 		pognon = 0;
 		mise = 0;
+		elimine = false;
 		alC = new ArrayList<Carte>();
 	}
 
-	public int getNumJoueur()	{	return numJoueur;	}
-	public String getNom()		{	return nom;			}
-	public int getPognon() 		{	return pognon;		}
-	public int getMise()		{	return mise;		}
+	public int 				getNumJoueur()	{	return numJoueur;	}
+	public String 			getNom()		{	return nom;			}
+	public int 				getPognon() 	{	return pognon;		}
+	public int 				getMise()		{	return mise;		}
+	public boolean 			estElimine()	{	return elimine;		}
+	public ArrayList<Carte> getListeCarte()	{	return alC;			}
 	
 	public void setNumJoueur(int numJoueur)	{	this.numJoueur = numJoueur;	}
 	public void setNom(String nom)			{	this.nom = nom;				}
@@ -45,6 +50,11 @@ public class Joueur
 	public boolean enleverCarte(Carte carte)
 	{
 		return alC.remove(carte);
+	}
+	
+	public int getIndexCarte(Carte carte)
+	{
+		return Collections.binarySearch(alC, carte);
 	}
 	
 	public String afficherCarte()

@@ -20,7 +20,7 @@ public class Blackjack
 	private FenetreChoixJoueurs		fenetreJoueurs;
 	private FenetreSaisie			fenetreSaisie;
 	
-	private static int 					nbJoueur;
+	private static int 				nbJoueur;
 
 	public Blackjack()
 	{
@@ -68,7 +68,6 @@ public class Blackjack
 		while (nbJoueur != fenetreSaisie.getAlI().size())
 			attendre();
 			
-			
 		for (int i = 0; i < nbJoueur; i++)
 			alJ.get(i).setPognon(fenetreSaisie.getIntAl(i));
 		
@@ -89,16 +88,34 @@ public class Blackjack
 		fenetreSaisie.vider();
 	}
 	
+	public void choixJoueurCarte()
+	{
+		for (Joueur j : alJ)
+		{
+			if (j.estElimine())
+				continue;
+			boolean separe = false;
+			Carte carte1 = j.getListeCarte().get(0);
+			Carte carte2 = j.getListeCarte().get(1);
+			
+			if (carte1.equals(carte2))
+				separe = true;
+			
+			
+			
+		}
+	}
+	
 	// accesseur de Pioche et nbJoueur
-	public Pioche getPioche() 						{	return pioche;			}
-	public int getNbJoueur() 						{	return nbJoueur;		}
+	public Pioche 	getPioche() 	{	return pioche;			}
+	public int 		getNbJoueur() 	{	return nbJoueur;		}
 	
 	// accesseur des fenetres
-	public FenetreChoixJoueurs getFenetreJoueur() 	{	return fenetreJoueurs;	}
-	public FenetreSaisie getFenetreSaisie()			{	return fenetreSaisie;	}
-	public ArrayList<Joueur> getAlJ()				{	return alJ;				}
+	public FenetreChoixJoueurs 	getFenetreJoueur() 	{	return fenetreJoueurs;	}
+	public FenetreSaisie 		getFenetreSaisie()	{	return fenetreSaisie;	}
+	public ArrayList<Joueur> 	getAlJ()			{	return alJ;				}
 
-	//permet de mélanger la pioche
+	//permet de mï¿½langer la pioche
 	public void melangerPioche()
 	{
 		pioche.melangerCarte();
@@ -115,6 +132,15 @@ public class Blackjack
 		}
 	}
 	
+	// on attend pour pas prendre trop de ressource
+	public void attendre()
+	{
+		try
+		{
+			Thread.sleep(5000);
+		} catch (Exception e){}
+	}
+	
 	public String afficherCarte()
 	{
 		String s = "";
@@ -124,15 +150,6 @@ public class Blackjack
 		s += croupier.afficherCarte();
 		
 		return s;
-	}
-	
-	// on attend pour pas prendre trop de ressources
-	public void attendre()
-	{
-		try
-		{
-			Thread.sleep(5000);
-		} catch (Exception e){}
 	}
 	
 	public String toString()
@@ -152,5 +169,7 @@ public class Blackjack
 		
 		b.distribuerCarte();
 		System.out.println(b.afficherCarte());
+		
+		b.choixJoueurCarte();
 	}
 }
